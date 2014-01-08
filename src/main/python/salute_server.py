@@ -1,7 +1,7 @@
-
+import pyro_setting
 import com.nealxyc.plugintest.javapythonbridge.SaluteImpl as SaluteImpl
 import Pyro4
-import pyro_setting
+
 
 class SaluteServer:
     def __init__(self):

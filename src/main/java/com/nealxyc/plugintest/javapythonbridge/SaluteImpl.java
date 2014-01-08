@@ -7,7 +7,7 @@ public class SaluteImpl implements ISalute {
 		salute(name);
 		return "Done.";
 	}
-
+	
 	public void salute(String name) {
 		System.out.println("Hi " + name);
 	}

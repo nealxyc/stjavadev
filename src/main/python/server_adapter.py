@@ -6,3 +6,7 @@ class ServerAdapter(ServerAdapter):
         pass
     def run(self):
         return salute_server.main()
+
+
+if __name__ == "__main__":
+    ServerAdapter().run()
