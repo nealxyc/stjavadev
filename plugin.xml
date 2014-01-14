@@ -2,15 +2,15 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="hello"
-         name="Hello World App"
+         id="stjavadev"
+         name="ST Java Dev"
          point="org.eclipse.core.runtime.applications">
       <application
             cardinality="singleton-global"
             thread="main"
             visible="false">
          <run
-               class="com.nealxyc.plugintest.App">
+               class="com.nealxyc.stjavadev.App">
          </run>
       </application>
    </extension>
