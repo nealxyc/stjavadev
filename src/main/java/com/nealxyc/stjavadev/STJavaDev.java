@@ -11,6 +11,10 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.CompletionRequestor;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -55,10 +59,10 @@ public class STJavaDev {
 		return false ;
 	}
 	
-	public List<String> getAllMethods(String javaSourcePath){
+	public List<String> getAllMethods(String javaSrcFullName){
 		ArrayList<String> methods = new ArrayList<String>();
 		try {
-			IType type = activeProject.findType(javaSourcePath);
+			IType type = activeProject.findType(javaSrcFullName);
 			for(IMethod m: type.getMethods()){
 				methods.add(m.getElementName());
 			}
@@ -69,6 +73,36 @@ public class STJavaDev {
 		}
 		return methods;
 	}
+	
+	public boolean codeComplete(String filePath, int offset, CompletionRequestor req){
+		IJavaProject prj = Utils.notNull(activeProject);
+		try {
+//			IType type = prj.findType(javaSourcePath);
+			IJavaElement elem = prj.findElement(new Path(filePath));
+			if(elem != null && elem instanceof ICompilationUnit ){
+				ICompilationUnit icu = (ICompilationUnit) elem;
+				System.out.println(icu.getSource());
+				if(!icu.isOpen()) {
+					icu.open(null);
+				} else{
+					if(icu.hasResourceChanged() ){
+						System.out.println("[STJavaDev.codeComplete] resource changed.");
+						//icu.makeConsistent(null);
+					}
+				}
+				icu.codeComplete(offset, req);
+				return true ;
+			}else{
+				System.out.println(elem.getResource());
+			}
+		} catch (JavaModelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false ;
+	}
+	
 	
 	
 }

@@ -2,6 +2,7 @@ import pyro_setting
 import com.nealxyc.stjavadev.STJavaDev as JavaServer
 import Pyro4
 import threading
+import completion_requestor
 
 class STJavaDevServer:
     def __init__(self):
@@ -15,6 +16,13 @@ class STJavaDevServer:
             return 'Found Java Project: %s' % prj_name
         return 'Project not found.'
     
+    def codeComplete(self, file_path, offset):
+        print 'Finding code completion...on file %s, offset %i' % (file_path, offset)
+        if self.java_server.codeComplete(file_path, offset, completion_requestor.CompletionRequestor()):
+            pass
+        else:
+            print 'can not call code completion...on file %s, offset %i' % (file_path, offset)
+    
 class Pyro4NSServer(threading.Thread):
     def __init__(self):
         print 'Initialing Naming Server ...'
@@ -23,6 +31,8 @@ class Pyro4NSServer(threading.Thread):
         print 'Starting Naming Server ...'
         Pyro4.naming.startNSloop()
         pass
+    
+
 
 def main():
     
